@@ -55,10 +55,9 @@ Variables are particularly useful in `range` loops. They can be used on list-lik
     {{- range $index, $topping := .Values.pizzaToppings }}
       {{ $index }}: {{ $topping }}
     {{- end }}
-
 ```
 
-Note that `range` comes first, then the variables, then the assignment operator, then the list. This will assign the integer index (starting from zero) to `$index` and the value to `$topping`. Running it will produce:
+Note that `range` comes first, then the variables, then the assignment operator, then the list. This will assign the integer index \(starting from zero\) to `$index` and the value to `$topping`. Running it will produce:
 
 ```yaml
   toppings: |-
@@ -101,6 +100,7 @@ Variables are normally not "global". They are scoped to the block in which they 
 However, there is one variable that is always global - `$` - this variable will always point to the root context. This can be very useful when you are looping in a range and need to know the chart's release name.
 
 An example illustrating this:
+
 ```yaml
 {{- range .Values.tlsSecrets }}
 apiVersion: v1
@@ -124,3 +124,4 @@ data:
 ```
 
 So far we have looked at just one template declared in just one file. But one of the powerful features of the Helm template language is its ability to declare multiple templates and use them together. We'll turn to that in the next section.
+

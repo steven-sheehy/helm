@@ -39,7 +39,7 @@ subjects:
 
 _Note: The cluster-admin role is created by default in a Kubernetes cluster, so you don't have to define it explicitly._
 
-```console
+```text
 $ kubectl create -f rbac-config.yaml
 serviceaccount "tiller" created
 clusterrolebinding "tiller" created
@@ -50,7 +50,7 @@ $ helm init --service-account tiller --history-max 200
 
 In the example above, we gave Tiller admin access to the entire cluster. You are not at all required to give Tiller cluster-admin access for it to work. Instead of specifying a ClusterRole or a ClusterRoleBinding, you can specify a Role and RoleBinding to limit Tiller's scope to a particular namespace.
 
-```console
+```text
 $ kubectl create namespace tiller-world
 namespace "tiller-world" created
 $ kubectl create serviceaccount tiller --namespace tiller-world
@@ -71,7 +71,7 @@ rules:
   verbs: ["*"]
 ```
 
-```console
+```text
 $ kubectl create -f role-tiller.yaml
 role "tiller-manager" created
 ```
@@ -94,14 +94,14 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
 ```
 
-```console
+```text
 $ kubectl create -f rolebinding-tiller.yaml
 rolebinding "tiller-binding" created
 ```
 
 Afterwards you can run `helm init` to install Tiller in the `tiller-world` namespace.
 
-```console
+```text
 $ helm init --service-account tiller --tiller-namespace tiller-world
 $HELM_HOME has been configured at /Users/awesome-user/.helm.
 
@@ -126,7 +126,7 @@ In the example above, we gave Tiller admin access to the namespace it was deploy
 
 For example, let's install Tiller in the namespace `myorg-system` and allow Tiller to deploy resources in the namespace `myorg-users`.
 
-```console
+```text
 $ kubectl create namespace myorg-system
 namespace "myorg-system" created
 $ kubectl create serviceaccount tiller --namespace myorg-system
@@ -147,7 +147,7 @@ rules:
   verbs: ["*"]
 ```
 
-```console
+```text
 $ kubectl create -f role-tiller.yaml
 role "tiller-manager" created
 ```
@@ -170,7 +170,7 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
 ```
 
-```console
+```text
 $ kubectl create -f rolebinding-tiller.yaml
 rolebinding "tiller-binding" created
 ```
@@ -189,7 +189,7 @@ rules:
   verbs: ["*"]
 ```
 
-```console
+```text
 $ kubectl create -f role-tiller-myorg-system.yaml
 role "tiller-manager" created
 ```
@@ -212,14 +212,14 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
 ```
 
-```console
+```text
 $ kubectl create -f rolebinding-tiller-myorg-system.yaml
 rolebinding "tiller-binding" created
 ```
 
 ## Helm and Role-based Access Control
 
-When running a Helm client in a pod, in order for the Helm client to talk to a Tiller instance, it will need certain privileges to be granted. Specifically, the Helm client will need to be able to create pods, forward ports and be able to list pods in the namespace where Tiller is running (so it can find Tiller).
+When running a Helm client in a pod, in order for the Helm client to talk to a Tiller instance, it will need certain privileges to be granted. Specifically, the Helm client will need to be able to create pods, forward ports and be able to list pods in the namespace where Tiller is running \(so it can find Tiller\).
 
 ### Example: Deploy Helm in a namespace, talking to Tiller in another namespace
 
@@ -268,9 +268,10 @@ subjects:
   namespace: helm-world
 ```
 
-```console
+```text
 $ kubectl create -f helm-user.yaml
 serviceaccount "helm" created
 role "tiller-user" created
 rolebinding "tiller-user-binding" created
 ```
+

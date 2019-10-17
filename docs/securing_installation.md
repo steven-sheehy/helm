@@ -2,28 +2,28 @@
 
 Helm is a powerful and flexible package-management and operations tool for Kubernetes. Installing it using the default installation command -- `helm init` -- quickly and easily installs **Tiller**, the server-side component with which Helm corresponds.
 
-This default installation applies **_no security configurations_**, however. It's completely appropriate to use this type of installation when you are working against a cluster with no or very few security concerns, such as local development with Minikube or with a cluster that is well-secured in a private network with no data-sharing or no other users or teams. If this is the case, then the default installation is fine, but remember: With great power comes great responsibility. Always use due diligence when deciding to use the default installation.
+This default installation applies _**no security configurations**_, however. It's completely appropriate to use this type of installation when you are working against a cluster with no or very few security concerns, such as local development with Minikube or with a cluster that is well-secured in a private network with no data-sharing or no other users or teams. If this is the case, then the default installation is fine, but remember: With great power comes great responsibility. Always use due diligence when deciding to use the default installation.
 
 ## Who Needs Security Configurations?
 
 For the following types of clusters we strongly recommend that you apply the proper security configurations to Helm and Tiller to ensure the safety of the cluster, the data in it, and the network to which it is connected.
 
-- Clusters that are exposed to uncontrolled network environments: either untrusted network actors can access the cluster, or untrusted applications that can access the network environment.
-- Clusters that are for many people to use -- _multitenant_ clusters -- as a shared environment
-- Clusters that have access to or use high-value data or networks of any type
+* Clusters that are exposed to uncontrolled network environments: either untrusted network actors can access the cluster, or untrusted applications that can access the network environment.
+* Clusters that are for many people to use -- _multitenant_ clusters -- as a shared environment
+* Clusters that have access to or use high-value data or networks of any type
 
 Often, environments like these are referred to as _production grade_ or _production quality_ because the damage done to any company by misuse of the cluster can be profound for either customers, the company itself, or both. Once the risk of damage becomes high enough, you need to ensure the integrity of your cluster no matter what the actual risk.
 
 To configure your installation properly for your environment, you must:
 
-- Understand the security context of your cluster
-- Choose the Best Practices you should apply to your helm installation
+* Understand the security context of your cluster
+* Choose the Best Practices you should apply to your helm installation
 
-The following assumes you have a Kubernetes configuration file (a _kubeconfig_ file) or one was given to you to access a cluster.
+The following assumes you have a Kubernetes configuration file \(a _kubeconfig_ file\) or one was given to you to access a cluster.
 
 ## Understanding the Security Context of your Cluster
 
-`helm init` installs Tiller into the cluster in the `kube-system` namespace and without any RBAC rules applied. This is appropriate for local development and other private scenarios because it enables you to be productive immediately. It also enables you to continue running Helm with existing Kubernetes clusters that do not have role-based access control (RBAC) support until you can move your workloads to a more recent Kubernetes version.
+`helm init` installs Tiller into the cluster in the `kube-system` namespace and without any RBAC rules applied. This is appropriate for local development and other private scenarios because it enables you to be productive immediately. It also enables you to continue running Helm with existing Kubernetes clusters that do not have role-based access control \(RBAC\) support until you can move your workloads to a more recent Kubernetes version.
 
 There are four main areas to consider when securing a tiller installation:
 
@@ -34,7 +34,7 @@ There are four main areas to consider when securing a tiller installation:
 
 ### RBAC
 
-Recent versions of Kubernetes employ a [role-based access control (or RBAC)](https://en.wikipedia.org/wiki/Role-based_access_control) system (as do modern operating systems) to help mitigate the damage that can be done if credentials are misused or bugs exist. Even where an identity is hijacked, the identity has only so many permissions to a controlled space. This effectively adds a layer of security to limit the scope of any attack with that identity.
+Recent versions of Kubernetes employ a [role-based access control \(or RBAC\)](https://en.wikipedia.org/wiki/Role-based_access_control) system \(as do modern operating systems\) to help mitigate the damage that can be done if credentials are misused or bugs exist. Even where an identity is hijacked, the identity has only so many permissions to a controlled space. This effectively adds a layer of security to limit the scope of any attack with that identity.
 
 Helm and Tiller are designed to install, remove, and modify logical applications that can contain many services interacting together. As a result, often its usefulness involves cluster-wide operations, which in a multitenant cluster means that great care must be taken with access to a cluster-wide Tiller installation to prevent improper activity.
 
@@ -50,29 +50,29 @@ This situation may change in the future. While the community has several methods
 
 ### The Tiller gRPC Endpoint
 
-In the default installation the gRPC endpoint that Tiller offers is available inside the cluster (not external to the cluster) without authentication configuration applied. Without applying authentication, any process in the cluster can use the gRPC endpoint to perform operations inside the cluster. In a local or secured private cluster, this enables rapid usage and is normal. (When running outside the cluster, Helm authenticates through the Kubernetes API server to reach Tiller, leveraging existing Kubernetes authentication support.)
+In the default installation the gRPC endpoint that Tiller offers is available inside the cluster \(not external to the cluster\) without authentication configuration applied. Without applying authentication, any process in the cluster can use the gRPC endpoint to perform operations inside the cluster. In a local or secured private cluster, this enables rapid usage and is normal. \(When running outside the cluster, Helm authenticates through the Kubernetes API server to reach Tiller, leveraging existing Kubernetes authentication support.\)
 
-The following two sub-sections describe options of how to setup Tiller so there isn't an unauthenticated endpoint (i.e. gRPC) in your cluster.
+The following two sub-sections describe options of how to setup Tiller so there isn't an unauthenticated endpoint \(i.e. gRPC\) in your cluster.
 
 #### Enabling TLS
 
-(Note that out of the two options, this is the recommended one for Helm 2.)
+\(Note that out of the two options, this is the recommended one for Helm 2.\)
 
-Shared and production clusters -- for the most part -- should use Helm 2.7.2 at a minimum and configure TLS for each Tiller gRPC endpoint to ensure that within the cluster usage of gRPC endpoints is only for the properly authenticated identity for that endpoint (i.e. configure each endpoint to use a separate TLS certificate). Doing so enables any number of Tiller instances to be deployed in any number of namespaces and yet no unauthenticated usage of any gRPC endpoint is possible. Finally, use Helm `init` with the `--tiller-tls-verify` option to install Tiller with TLS enabled and to verify remote certificates, and all other Helm commands should use the `--tls` option.
+Shared and production clusters -- for the most part -- should use Helm 2.7.2 at a minimum and configure TLS for each Tiller gRPC endpoint to ensure that within the cluster usage of gRPC endpoints is only for the properly authenticated identity for that endpoint \(i.e. configure each endpoint to use a separate TLS certificate\). Doing so enables any number of Tiller instances to be deployed in any number of namespaces and yet no unauthenticated usage of any gRPC endpoint is possible. Finally, use Helm `init` with the `--tiller-tls-verify` option to install Tiller with TLS enabled and to verify remote certificates, and all other Helm commands should use the `--tls` option.
 
-For more information about the proper steps to configure Tiller and use Helm properly with TLS configured, see the [Best Practices](#best-practices-for-securing-helm-and-tiller) section below, and [Using SSL between Helm and Tiller](tiller_ssl.md).
+For more information about the proper steps to configure Tiller and use Helm properly with TLS configured, see the [Best Practices](securing_installation.md#best-practices-for-securing-helm-and-tiller) section below, and [Using SSL between Helm and Tiller](tiller_ssl.md).
 
 When Helm clients are connecting from outside of the cluster, the security between the Helm client and the API server is managed by Kubernetes itself. You may want to ensure that this link is secure. Note that if you are using the TLS configuration recommended above, not even the Kubernetes API server has access to the encrypted messages between the client and Tiller.
 
 #### Running Tiller Locally
 
-Contrary to the previous [Enabling TLS](#enabling-tls) section, this section does not involve running a tiller server pod in your cluster (for what it's worth, that lines up with the current [helm v3 proposal](https://github.com/helm/community/blob/master/helm-v3/000-helm-v3.md)), thus there is no gRPC endpoint (and thus there's no need to create & manage TLS certificates to secure each gRPC endpoint).
+Contrary to the previous [Enabling TLS](securing_installation.md#enabling-tls) section, this section does not involve running a tiller server pod in your cluster \(for what it's worth, that lines up with the current [helm v3 proposal](https://github.com/helm/community/blob/master/helm-v3/000-helm-v3.md)\), thus there is no gRPC endpoint \(and thus there's no need to create & manage TLS certificates to secure each gRPC endpoint\).
 
 Steps:
 
-- Fetch the latest helm release tarball from the [GitHub release page](https://github.com/helm/helm/releases), and extract and move `helm` and `tiller` somewhere on your `$PATH`.
-- "Server": Run `tiller --storage=secret`. (Note that `tiller` has a default value of ":44134" for the `--listen` argument.)
-- Client: In another terminal (and on the same host that the aforementioned `tiller` command was run for the previous bullet): Run `export HELM_HOST=:44134`, and then run `helm` commands as usual.
+* Fetch the latest helm release tarball from the [GitHub release page](https://github.com/helm/helm/releases), and extract and move `helm` and `tiller` somewhere on your `$PATH`.
+* "Server": Run `tiller --storage=secret`. \(Note that `tiller` has a default value of ":44134" for the `--listen` argument.\)
+* Client: In another terminal \(and on the same host that the aforementioned `tiller` command was run for the previous bullet\): Run `export HELM_HOST=:44134`, and then run `helm` commands as usual.
 
 ### Tiller's Release Information
 
@@ -105,6 +105,7 @@ The following guidelines reiterate the Best Practices for securing Helm and Till
 5. Use the `--tiller-tls-verify` option with `helm init` and the `--tls` flag with other Helm commands to enforce verification
 
 If these steps are followed, an example `helm init` command might look something like this:
+
 ```bash
 $ helm init \
 --override 'spec.template.spec.containers[0].command'='{/tiller,--storage=secret}' \
@@ -117,3 +118,4 @@ $ helm init \
 ```
 
 This command will start Tiller with strong authentication over gRPC, release information stored in a Kubernetes Secret, and a service account to which RBAC policies have been applied.
+

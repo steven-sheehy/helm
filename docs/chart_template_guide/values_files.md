@@ -2,10 +2,10 @@
 
 In the previous section we looked at the built-in objects that Helm templates offer. One of the four built-in objects is `Values`. This object provides access to values passed into the chart. Its contents come from four sources:
 
-- The `values.yaml` file in the chart
-- If this is a subchart, the `values.yaml` file of a parent chart
-- A values file is passed into `helm install` or `helm upgrade` with the `-f` flag (`helm install -f myvals.yaml ./mychart`)
-- Individual parameters passed with `--set` (such as `helm install --set foo=bar ./mychart`)
+* The `values.yaml` file in the chart
+* If this is a subchart, the `values.yaml` file of a parent chart
+* A values file is passed into `helm install` or `helm upgrade` with the `-f` flag \(`helm install -f myvals.yaml ./mychart`\)
+* Individual parameters passed with `--set` \(such as `helm install --set foo=bar ./mychart`\)
 
 The list above is in order of specificity: `values.yaml` is the default, which can be overridden by a parent chart's `values.yaml`, which can in turn be overridden by a user-supplied values file, which can in turn be overridden by `--set` parameters.
 
@@ -33,7 +33,7 @@ Notice on the last line we access `favoriteDrink` as an attribute of `Values`: `
 
 Let's see how this renders.
 
-```console
+```text
 $ helm install --dry-run --debug ./mychart
 SERVER: "localhost:44134"
 CHART PATH: /Users/mattbutcher/Code/Go/src/k8s.io/helm/_scratch/mychart
@@ -54,7 +54,7 @@ data:
 
 Because `favoriteDrink` is set in the default `values.yaml` file to `coffee`, that's the value displayed in the template. We can easily override that by adding a `--set` flag in our call to `helm install`:
 
-```console
+```text
 helm install --dry-run --debug --set favoriteDrink=slurm ./mychart
 SERVER: "localhost:44134"
 CHART PATH: /Users/mattbutcher/Code/Go/src/k8s.io/helm/_scratch/mychart
@@ -103,6 +103,7 @@ While structuring data this way is possible, the recommendation is that you keep
 If you need to delete a key from the default values, you may override the value of the key to be `null`, in which case Helm will remove the key from the overridden values merge.
 
 For example, the stable Drupal chart allows configuring the liveness probe, in case you configure a custom image. Here are the default values:
+
 ```yaml
 livenessProbe:
   httpGet:
@@ -112,6 +113,7 @@ livenessProbe:
 ```
 
 If you try to override the livenessProbe handler to `exec` instead of `httpGet` using `--set livenessProbe.exec.command=[cat,docroot/CHANGELOG.txt]`, Helm will coalesce the default and overridden keys together, resulting in the following YAML:
+
 ```yaml
 livenessProbe:
   httpGet:
@@ -125,8 +127,10 @@ livenessProbe:
 ```
 
 However, Kubernetes would then fail because you can not declare more than one livenessProbe handler. To overcome this, you may instruct Helm to delete the `livenessProbe.httpGet` by setting it to null:
-```sh
+
+```bash
 helm install stable/drupal --set image=my-registry/drupal:0.1.0 --set livenessProbe.exec.command=[cat,docroot/CHANGELOG.txt] --set livenessProbe.httpGet=null
 ```
 
 At this point, we've seen several built-in objects, and used them to inject information into a template. Now we will take a look at another aspect of the template engine: functions and pipelines.
+

@@ -1,33 +1,41 @@
 # Syncing Your Chart Repository
-*Note: This example is specifically for a Google Cloud Storage (GCS) bucket which serves a chart repository.*
+
+_Note: This example is specifically for a Google Cloud Storage \(GCS\) bucket which serves a chart repository._
 
 ## Prerequisites
-* Install the [gsutil](https://cloud.google.com/storage/docs/gsutil) tool. *We rely heavily on the gsutil rsync functionality*
+
+* Install the [gsutil](https://cloud.google.com/storage/docs/gsutil) tool. _We rely heavily on the gsutil rsync functionality_
 * Be sure to have access to the Helm binary
-* _Optional: We recommend you set [object versioning](https://cloud.google.com/storage/docs/gsutil/addlhelp/ObjectVersioningandConcurrencyControl#top_of_page) on your GCS bucket in case you accidentally delete something._
+* _Optional: We recommend you set_ [_object versioning_](https://cloud.google.com/storage/docs/gsutil/addlhelp/ObjectVersioningandConcurrencyControl#top_of_page) _on your GCS bucket in case you accidentally delete something._
 
 ## Set up a local chart repository directory
+
 Create a local directory like we did in [the chart repository guide](chart_repository.md), and place your packaged charts in that directory.
 
 For example:
-```console
+
+```text
 $ mkdir fantastic-charts
 $ mv alpine-0.1.0.tgz fantastic-charts/
 ```
 
 ## Generate an updated index.yaml
+
 Use Helm to generate an updated index.yaml file by passing in the directory path and the url of the remote repository to the `helm repo index` command like this:
 
-```console
+```text
 $ helm repo index fantastic-charts/ --url https://fantastic-charts.storage.googleapis.com
 ```
+
 This will generate an updated index.yaml file and place in the `fantastic-charts/` directory.
 
 ## Sync your local and remote chart repositories
+
 Upload the contents of the directory to your GCS bucket by running `scripts/sync-repo.sh` and pass in the local directory name and the GCS bucket name.
 
 For example:
-```console
+
+```text
 $ pwd
 /Users/funuser/go/src/github.com/helm/helm
 $ scripts/sync-repo.sh fantastic-charts/ fantastic-charts
@@ -47,11 +55,14 @@ Copying file://fantastic-charts/index.yaml [Content-Type=application/octet-strea
 Uploading   gs://fantastic-charts/index.yaml:                    347 B/347 B
 Congratulations your remote chart repository now matches the contents of fantastic-charts/
 ```
+
 ## Updating your chart repository
+
 You'll want to keep a local copy of the contents of your chart repository or use `gsutil rsync` to copy the contents of your remote chart repository to a local directory.
 
 For example:
-```console
+
+```text
 $ gsutil rsync -d -n gs://bucket-name local-dir/    # the -n flag does a dry run
 Building synchronization state...
 Starting synchronization
@@ -67,8 +78,9 @@ Copying gs://bucket-name/index.yaml...
 Downloading file://local-dir/index.yaml:                              346 B/346 B
 ```
 
-
 Helpful Links:
+
 * Documentation on [gsutil rsync](https://cloud.google.com/storage/docs/gsutil/commands/rsync#description)
 * [The Chart Repository Guide](chart_repository.md)
 * Documentation on [object versioning and concurrency control](https://cloud.google.com/storage/docs/gsutil/addlhelp/ObjectVersioningandConcurrencyControl#overview) in Google Cloud Storage
+

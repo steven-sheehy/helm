@@ -1,16 +1,16 @@
 # Flow Control
 
-Control structures (called "actions" in template parlance) provide you, the template author, with the ability to control the flow of a template's generation. Helm's template language provides the following control structures:
+Control structures \(called "actions" in template parlance\) provide you, the template author, with the ability to control the flow of a template's generation. Helm's template language provides the following control structures:
 
-- `if`/`else` for creating conditional blocks
-- `with` to specify a scope
-- `range`, which provides a "for each"-style loop
+* `if`/`else` for creating conditional blocks
+* `with` to specify a scope
+* `range`, which provides a "for each"-style loop
 
 In addition to these, it provides a few actions for declaring and using named template segments:
 
-- `define` declares a new named template inside of your template
-- `template` imports a named template
-- `block` declares a special kind of fillable template area
+* `define` declares a new named template inside of your template
+* `template` imports a named template
+* `block` declares a special kind of fillable template area
 
 In this section, we'll talk about `if`, `with`, and `range`. The others are covered in the "Named Templates" section later in this guide.
 
@@ -34,11 +34,11 @@ Notice that we're now talking about _pipelines_ instead of values. The reason fo
 
 A pipeline is evaluated as _false_ if the value is:
 
-- a boolean false
-- a numeric zero
-- an empty string
-- a `nil` (empty or null)
-- an empty collection (`map`, `slice`, `tuple`, `dict`, `array`)
+* a boolean false
+* a numeric zero
+* an empty string
+* a `nil` \(empty or null\)
+* an empty collection \(`map`, `slice`, `tuple`, `dict`, `array`\)
 
 In any other case, the condition is evaluated to _true_ and the pipeline is executed.
 
@@ -75,7 +75,7 @@ data:
 
 While we're looking at conditionals, we should take a quick look at the way whitespace is controlled in templates. Let's take the previous example and format it to be a little easier to read:
 
-```
+```text
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -91,14 +91,14 @@ data:
 
 Initially, this looks good. But if we run it through the template engine, we'll get an unfortunate result:
 
-```console
+```text
 $ helm install --dry-run --debug ./mychart
 SERVER: "localhost:44134"
 CHART PATH: /Users/mattbutcher/Code/Go/src/k8s.io/helm/_scratch/mychart
 Error: YAML parse error on mychart/templates/configmap.yaml: error converting YAML to JSON: yaml: line 9: did not find expected key
 ```
 
-What happened? We generated incorrect YAML because of the whitespacing above. 
+What happened? We generated incorrect YAML because of the whitespacing above.
 
 ```yaml
 # Source: mychart/templates/configmap.yaml
@@ -143,14 +143,13 @@ data:
   food: "PIZZA"
 
   mug: true
-
 ```
 
 Notice that we received a few empty lines in our YAML. Why? When the template engine runs, it _removes_ the contents inside of `{{` and `}}`, but it leaves the remaining whitespace exactly as is.
 
 YAML ascribes meaning to whitespace, so managing the whitespace becomes pretty important. Fortunately, Helm templates have a few tools to help.
 
-First, the curly brace syntax of template declarations can be modified with special characters to tell the template engine to chomp whitespace. `{{- ` (with the dash and space added) indicates that whitespace should be chomped left, while ` -}}` means whitespace to the right should be consumed. _Be careful! Newlines are whitespace!_
+First, the curly brace syntax of template declarations can be modified with special characters to tell the template engine to chomp whitespace. `{{-` \(with the dash and space added\) indicates that whitespace should be chomped left, while `-}}` means whitespace to the right should be consumed. _Be careful! Newlines are whitespace!_
 
 > Make sure there is a space between the `-` and the rest of your directive. `{{- 3 }}` means "trim left whitespace and print 3" while `{{-3}}` means "print -3".
 
@@ -184,7 +183,6 @@ data:
 **{{- if eq .Values.favorite.drink "coffee"}}
   mug: true*
 **{{- end}}
-
 ```
 
 Keeping that in mind, we can run our template through Helm and see the result:
@@ -209,14 +207,13 @@ Be careful with the chomping modifiers. It is easy to accidentally do things lik
   {{- if eq .Values.favorite.drink "coffee" -}}
   mug: true
   {{- end -}}
-
 ```
 
 That will produce `food: "PIZZA"mug:true` because it consumed newlines on both sides.
 
 > For the details on whitespace control in templates, see the [Official Go template documentation](https://godoc.org/text/template)
 
-Finally, sometimes it's easier to tell the template system how to indent for you instead of trying to master the spacing of template directives. For that reason, you may sometimes find it useful to use the `indent` function (`{{indent 2 "mug:true"}}`).
+Finally, sometimes it's easier to tell the template system how to indent for you instead of trying to master the spacing of template directives. For that reason, you may sometimes find it useful to use the `indent` function \(`{{indent 2 "mug:true"}}`\).
 
 ## Modifying scope using `with`
 
@@ -230,7 +227,7 @@ The syntax for `with` is similar to a simple `if` statement:
 {{ end }}
 ```
 
-Scopes can be changed. `with` can allow you to set the current scope (`.`) to a particular object. For example, we've been working with `.Values.favorites`. Let's rewrite our ConfigMap to alter the `.` scope to point to `.Values.favorites`:
+Scopes can be changed. `with` can allow you to set the current scope \(`.`\) to a particular object. For example, we've been working with `.Values.favorites`. Let's rewrite our ConfigMap to alter the `.` scope to point to `.Values.favorites`:
 
 ```yaml
 apiVersion: v1
@@ -245,7 +242,7 @@ data:
   {{- end }}
 ```
 
-(Note that we removed the `if` conditional from the previous exercise)
+\(Note that we removed the `if` conditional from the previous exercise\)
 
 Notice that now we can reference `.drink` and `.food` without qualifying them. That is because the `with` statement sets `.` to point to `.Values.favorite`. The `.` is reset to its previous scope after `{{ end }}`.
 
@@ -288,7 +285,7 @@ pizzaToppings:
   - onions
 ```
 
-Now we have a list (called a `slice` in templates) of `pizzaToppings`. We can modify our template to print this list into our ConfigMap:
+Now we have a list \(called a `slice` in templates\) of `pizzaToppings`. We can modify our template to print this list into our ConfigMap:
 
 ```yaml
 apiVersion: v1
@@ -305,12 +302,11 @@ data:
     {{- range .Values.pizzaToppings }}
     - {{ . | title | quote }}
     {{- end }}
-
 ```
 
-Let's take a closer look at the `toppings:` list. The `range` function will "range over" (iterate through) the `pizzaToppings` list. But now something interesting happens. Just like `with` sets the scope of `.`, so does a `range` operator. Each time through the loop, `.` is set to the current pizza topping. That is, the first time, `.` is set to `mushrooms`. The second iteration it is set to `cheese`, and so on.
+Let's take a closer look at the `toppings:` list. The `range` function will "range over" \(iterate through\) the `pizzaToppings` list. But now something interesting happens. Just like `with` sets the scope of `.`, so does a `range` operator. Each time through the loop, `.` is set to the current pizza topping. That is, the first time, `.` is set to `mushrooms`. The second iteration it is set to `cheese`, and so on.
 
-We can send the value of `.` directly down a pipeline, so when we do `{{ . | title | quote }}`, it sends `.` to `title` (title case function) and then to `quote`. If we run this template, the output will be:
+We can send the value of `.` directly down a pipeline, so when we do `{{ . | title | quote }}`, it sends `.` to `title` \(title case function\) and then to `quote`. If we run this template, the output will be:
 
 ```yaml
 # Source: mychart/templates/configmap.yaml
@@ -351,4 +347,5 @@ The above will produce this:
     - large
 ```
 
-In addition to lists and tuples, `range` can be used to iterate over collections that have a key and a value (like a `map` or `dict`). We'll see how to do that in the next section when we introduce template variables.
+In addition to lists and tuples, `range` can be used to iterate over collections that have a key and a value \(like a `map` or `dict`\). We'll see how to do that in the next section when we introduce template variables.
+

@@ -1,45 +1,31 @@
-## helm
+# helm
 
 The Helm package manager for Kubernetes.
 
-### Synopsis
+## Synopsis
 
 The Kubernetes package manager
 
 To begin working with Helm, run the 'helm init' command:
 
-	$ helm init
+```text
+$ helm init
+```
 
-This will install Tiller to your running Kubernetes cluster.
-It will also set up any necessary local configuration.
+This will install Tiller to your running Kubernetes cluster. It will also set up any necessary local configuration.
 
 Common actions from this point include:
 
-- helm search:    search for charts
-- helm fetch:     download a chart to your local directory to view
-- helm install:   upload the chart to Kubernetes
-- helm list:      list releases of charts
+* helm search:    search for charts
+* helm fetch:     download a chart to your local directory to view
+* helm install:   upload the chart to Kubernetes
+* helm list:      list releases of charts
 
-Environment:
-  $HELM_HOME           set an alternative location for Helm files. By default, these are stored in ~/.helm
-  $HELM_HOST           set an alternative Tiller host. The format is host:port
-  $HELM_NO_PLUGINS     disable plugins. Set HELM_NO_PLUGINS=1 to disable plugins.
-  $TILLER_NAMESPACE    set an alternative Tiller namespace (default "kube-system")
-  $KUBECONFIG          set an alternative Kubernetes configuration file (default "~/.kube/config")
-  $HELM_TLS_CA_CERT    path to TLS CA certificate used to verify the Helm client and Tiller server certificates (default "$HELM_HOME/ca.pem")
-  $HELM_TLS_CERT       path to TLS client certificate file for authenticating to Tiller (default "$HELM_HOME/cert.pem")
-  $HELM_TLS_KEY        path to TLS client key file for authenticating to Tiller (default "$HELM_HOME/key.pem")
-  $HELM_TLS_ENABLE     enable TLS connection between Helm and Tiller (default "false")
-  $HELM_TLS_VERIFY     enable TLS connection between Helm and Tiller and verify Tiller server certificate (default "false")
-  $HELM_TLS_HOSTNAME   the hostname or IP address used to verify the Tiller server certificate (default "127.0.0.1")
-  $HELM_KEY_PASSPHRASE set HELM_KEY_PASSPHRASE to the passphrase of your PGP private key. If set, you will not be prompted for
-                       the passphrase while signing helm charts
+Environment: $HELM\_HOME set an alternative location for Helm files. By default, these are stored in ~/.helm $HELM\_HOST set an alternative Tiller host. The format is host:port $HELM\_NO\_PLUGINS disable plugins. Set HELM\_NO\_PLUGINS=1 to disable plugins. $TILLER\_NAMESPACE set an alternative Tiller namespace \(default "kube-system"\) $KUBECONFIG set an alternative Kubernetes configuration file \(default "~/.kube/config"\) $HELM\_TLS\_CA\_CERT path to TLS CA certificate used to verify the Helm client and Tiller server certificates \(default "$HELM\_HOME/ca.pem"\) $HELM\_TLS\_CERT path to TLS client certificate file for authenticating to Tiller \(default "$HELM\_HOME/cert.pem"\) $HELM\_TLS\_KEY path to TLS client key file for authenticating to Tiller \(default "$HELM\_HOME/key.pem"\) $HELM\_TLS\_ENABLE enable TLS connection between Helm and Tiller \(default "false"\) $HELM\_TLS\_VERIFY enable TLS connection between Helm and Tiller and verify Tiller server certificate \(default "false"\) $HELM\_TLS\_HOSTNAME the hostname or IP address used to verify the Tiller server certificate \(default "127.0.0.1"\) $HELM\_KEY\_PASSPHRASE set HELM\_KEY\_PASSPHRASE to the passphrase of your PGP private key. If set, you will not be prompted for the passphrase while signing helm charts
 
+## Options
 
-
-### Options
-
-```
+```text
       --debug                           enable verbose output
   -h, --help                            help for helm
       --home string                     location of your Helm config. Overrides $HELM_HOME (default "~/.helm")
@@ -50,33 +36,34 @@ Environment:
       --tiller-namespace string         namespace of Tiller (default "kube-system")
 ```
 
-### SEE ALSO
+## SEE ALSO
 
-* [helm completion](helm_completion.md)	 - Generate autocompletions script for the specified shell (bash or zsh)
-* [helm create](helm_create.md)	 - create a new chart with the given name
-* [helm delete](helm_delete.md)	 - given a release name, delete the release from Kubernetes
-* [helm dependency](helm_dependency.md)	 - manage a chart's dependencies
-* [helm fetch](helm_fetch.md)	 - download a chart from a repository and (optionally) unpack it in local directory
-* [helm get](helm_get.md)	 - download a named release
-* [helm history](helm_history.md)	 - fetch release history
-* [helm home](helm_home.md)	 - displays the location of HELM_HOME
-* [helm init](helm_init.md)	 - initialize Helm on both client and server
-* [helm inspect](helm_inspect.md)	 - inspect a chart
-* [helm install](helm_install.md)	 - install a chart archive
-* [helm lint](helm_lint.md)	 - examines a chart for possible issues
-* [helm list](helm_list.md)	 - list releases
-* [helm package](helm_package.md)	 - package a chart directory into a chart archive
-* [helm plugin](helm_plugin.md)	 - add, list, or remove Helm plugins
-* [helm repo](helm_repo.md)	 - add, list, remove, update, and index chart repositories
-* [helm reset](helm_reset.md)	 - uninstalls Tiller from a cluster
-* [helm rollback](helm_rollback.md)	 - roll back a release to a previous revision
-* [helm search](helm_search.md)	 - search for a keyword in charts
-* [helm serve](helm_serve.md)	 - start a local http web server
-* [helm status](helm_status.md)	 - displays the status of the named release
-* [helm template](helm_template.md)	 - locally render templates
-* [helm test](helm_test.md)	 - test a release
-* [helm upgrade](helm_upgrade.md)	 - upgrade a release
-* [helm verify](helm_verify.md)	 - verify that a chart at the given path has been signed and is valid
-* [helm version](helm_version.md)	 - print the client/server version information
+* [helm completion](helm_completion.md)     - Generate autocompletions script for the specified shell \(bash or zsh\)
+* [helm create](helm_create.md)     - create a new chart with the given name
+* [helm delete](helm_delete.md)     - given a release name, delete the release from Kubernetes
+* [helm dependency](helm_dependency.md)     - manage a chart's dependencies
+* [helm fetch](helm_fetch.md)     - download a chart from a repository and \(optionally\) unpack it in local directory
+* [helm get](helm_get.md)     - download a named release
+* [helm history](helm_history.md)     - fetch release history
+* [helm home](helm_home.md)     - displays the location of HELM\_HOME
+* [helm init](helm_init.md)     - initialize Helm on both client and server
+* [helm inspect](helm_inspect.md)     - inspect a chart
+* [helm install](helm_install.md)     - install a chart archive
+* [helm lint](helm_lint.md)     - examines a chart for possible issues
+* [helm list](helm_list.md)     - list releases
+* [helm package](helm_package.md)     - package a chart directory into a chart archive
+* [helm plugin](helm_plugin.md)     - add, list, or remove Helm plugins
+* [helm repo](helm_repo.md)     - add, list, remove, update, and index chart repositories
+* [helm reset](helm_reset.md)     - uninstalls Tiller from a cluster
+* [helm rollback](helm_rollback.md)     - roll back a release to a previous revision
+* [helm search](helm_search.md)     - search for a keyword in charts
+* [helm serve](helm_serve.md)     - start a local http web server
+* [helm status](helm_status.md)     - displays the status of the named release
+* [helm template](helm_template.md)     - locally render templates
+* [helm test](helm_test.md)     - test a release
+* [helm upgrade](helm_upgrade.md)     - upgrade a release
+* [helm verify](helm_verify.md)     - verify that a chart at the given path has been signed and is valid
+* [helm version](helm_version.md)     - print the client/server version information
 
-###### Auto generated by spf13/cobra on 4-Feb-2019
+### Auto generated by spf13/cobra on 4-Feb-2019
+

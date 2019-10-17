@@ -6,7 +6,7 @@ To add installation notes to your chart, simply create a `templates/NOTES.txt` f
 
 Let's create a simple `NOTES.txt` file:
 
-```
+```text
 Thank you for installing {{ .Chart.Name }}.
 
 Your release is named {{ .Release.Name }}.
@@ -15,12 +15,11 @@ To learn more about the release, try:
 
   $ helm status {{ .Release.Name }}
   $ helm get {{ .Release.Name }}
-
 ```
 
 Now if we run `helm install ./mychart` we will see this message at the bottom:
 
-```
+```text
 RESOURCES:
 ==> v1/Secret
 NAME                   TYPE      DATA      AGE
@@ -43,3 +42,4 @@ To learn more about the release, try:
 ```
 
 Using `NOTES.txt` this way is a great way to give your users detailed information about how to use their newly installed chart. Creating a `NOTES.txt` file is strongly recommended, though it is not required.
+

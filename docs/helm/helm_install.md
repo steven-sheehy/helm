@@ -1,83 +1,72 @@
-## helm install
+# helm install
 
 install a chart archive
 
-### Synopsis
-
+## Synopsis
 
 This command installs a chart archive.
 
-The install argument must be a chart reference, a path to a packaged chart,
-a path to an unpacked chart directory or a URL.
+The install argument must be a chart reference, a path to a packaged chart, a path to an unpacked chart directory or a URL.
 
-To override values in a chart, use either the '--values' flag and pass in a file
-or use the '--set' flag and pass configuration from the command line.  To force string
-values in '--set', use '--set-string' instead. In case a value is large and therefore
-you want not to use neither '--values' nor '--set', use '--set-file' to read the
-single large value from file.
+To override values in a chart, use either the '--values' flag and pass in a file or use the '--set' flag and pass configuration from the command line. To force string values in '--set', use '--set-string' instead. In case a value is large and therefore you want not to use neither '--values' nor '--set', use '--set-file' to read the single large value from file.
 
-	$ helm install -f myvalues.yaml ./redis
+```text
+$ helm install -f myvalues.yaml ./redis
+```
 
 or
 
-	$ helm install --set name=prod ./redis
+```text
+$ helm install --set name=prod ./redis
+```
 
 or
 
-	$ helm install --set-string long_int=1234567890 ./redis
+```text
+$ helm install --set-string long_int=1234567890 ./redis
+```
 
-or
-    $ helm install --set-file multiline_text=path/to/textfile
+or $ helm install --set-file multiline\_text=path/to/textfile
 
-You can specify the '--values'/'-f' flag multiple times. The priority will be given to the
-last (right-most) file specified. For example, if both myvalues.yaml and override.yaml
-contained a key called 'Test', the value set in override.yaml would take precedence:
+You can specify the '--values'/'-f' flag multiple times. The priority will be given to the last \(right-most\) file specified. For example, if both myvalues.yaml and override.yaml contained a key called 'Test', the value set in override.yaml would take precedence:
 
-	$ helm install -f myvalues.yaml -f override.yaml ./redis
+```text
+$ helm install -f myvalues.yaml -f override.yaml ./redis
+```
 
-You can specify the '--set' flag multiple times. The priority will be given to the
-last (right-most) set specified. For example, if both 'bar' and 'newbar' values are
-set for a key called 'foo', the 'newbar' value would take precedence:
+You can specify the '--set' flag multiple times. The priority will be given to the last \(right-most\) set specified. For example, if both 'bar' and 'newbar' values are set for a key called 'foo', the 'newbar' value would take precedence:
 
-	$ helm install --set foo=bar --set foo=newbar ./redis
+```text
+$ helm install --set foo=bar --set foo=newbar ./redis
+```
 
+To check the generated manifests of a release without installing the chart, the '--debug' and '--dry-run' flags can be combined. This will still require a round-trip to the Tiller server.
 
-To check the generated manifests of a release without installing the chart,
-the '--debug' and '--dry-run' flags can be combined. This will still require a
-round-trip to the Tiller server.
-
-If --verify is set, the chart MUST have a provenance file, and the provenance
-file MUST pass all verification steps.
+If --verify is set, the chart MUST have a provenance file, and the provenance file MUST pass all verification steps.
 
 There are five different ways you can express the chart you want to install:
 
 1. By chart reference: helm install stable/mariadb
 2. By path to a packaged chart: helm install ./nginx-1.2.3.tgz
 3. By path to an unpacked chart directory: helm install ./nginx
-4. By absolute URL: helm install https://example.com/charts/nginx-1.2.3.tgz
-5. By chart reference and repo url: helm install --repo https://example.com/charts/ nginx
+4. By absolute URL: helm install [https://example.com/charts/nginx-1.2.3.tgz](https://example.com/charts/nginx-1.2.3.tgz)
+5. By chart reference and repo url: helm install --repo [https://example.com/charts/](https://example.com/charts/) nginx
 
 CHART REFERENCES
 
 A chart reference is a convenient way of reference a chart in a chart repository.
 
-When you use a chart reference with a repo prefix ('stable/mariadb'), Helm will look in the local
-configuration for a chart repository named 'stable', and will then look for a
-chart in that repository whose name is 'mariadb'. It will install the latest
-version of that chart unless you also supply a version number with the
-'--version' flag.
+When you use a chart reference with a repo prefix \('stable/mariadb'\), Helm will look in the local configuration for a chart repository named 'stable', and will then look for a chart in that repository whose name is 'mariadb'. It will install the latest version of that chart unless you also supply a version number with the '--version' flag.
 
-To see the list of chart repositories, use 'helm repo list'. To search for
-charts in a repository, use 'helm search'.
+To see the list of chart repositories, use 'helm repo list'. To search for charts in a repository, use 'helm search'.
 
-
-```
+```text
 helm install [CHART] [flags]
 ```
 
-### Options
+## Options
 
-```
+```text
       --atomic                   if set, installation process purges chart on fail, also sets --wait flag
       --ca-file string           verify certificates of HTTPS-enabled servers using this CA bundle
       --cert-file string         identify HTTPS client using this SSL certificate file
@@ -114,9 +103,9 @@ helm install [CHART] [flags]
       --wait                     if set, will wait until all Pods, PVCs, Services, and minimum number of Pods of a Deployment are in a ready state before marking the release as successful. It will wait for as long as --timeout
 ```
 
-### Options inherited from parent commands
+## Options inherited from parent commands
 
-```
+```text
       --debug                           enable verbose output
       --home string                     location of your Helm config. Overrides $HELM_HOME (default "~/.helm")
       --host string                     address of Tiller. Overrides $HELM_HOST
@@ -126,8 +115,9 @@ helm install [CHART] [flags]
       --tiller-namespace string         namespace of Tiller (default "kube-system")
 ```
 
-### SEE ALSO
+## SEE ALSO
 
-* [helm](helm.md)	 - The Helm package manager for Kubernetes.
+* [helm](helm.md)     - The Helm package manager for Kubernetes.
 
-###### Auto generated by spf13/cobra on 28-Jan-2019
+### Auto generated by spf13/cobra on 28-Jan-2019
+

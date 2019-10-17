@@ -4,11 +4,11 @@ This part of the Best Practices Guide discusses the creation and formatting of R
 
 RBAC resources are:
 
-- ServiceAccount (namespaced)
-- Role (namespaced)
-- ClusterRole 
-- RoleBinding (namespaced)
-- ClusterRoleBinding
+* ServiceAccount \(namespaced\)
+* Role \(namespaced\)
+* ClusterRole 
+* RoleBinding \(namespaced\)
+* ClusterRoleBinding
 
 ## YAML Configuration
 
@@ -41,11 +41,11 @@ serviceAccounts:
 
 ## RBAC Resources Should be Created by Default
 
-`rbac.create` should be a boolean value controlling whether RBAC resources are created.  The default should be `true`.  Users who wish to manage RBAC access controls themselves can set this value to `false` (in which case see below).
+`rbac.create` should be a boolean value controlling whether RBAC resources are created. The default should be `true`. Users who wish to manage RBAC access controls themselves can set this value to `false` \(in which case see below\).
 
 ## Using RBAC Resources
 
-`serviceAccount.name` should set to the name of the ServiceAccount to be used by access-controlled resources created by the chart.  If `serviceAccount.create` is true, then a ServiceAccount with this name should be created.  If the name is not set, then a name is generated using the `fullname` template, If `serviceAccount.create` is false, then it should not be created, but it should still be associated with the same resources so that manually-created RBAC resources created later that reference it will function correctly.  If `serviceAccount.create` is false and the name is not specified, then the default ServiceAccount is used.
+`serviceAccount.name` should set to the name of the ServiceAccount to be used by access-controlled resources created by the chart. If `serviceAccount.create` is true, then a ServiceAccount with this name should be created. If the name is not set, then a name is generated using the `fullname` template, If `serviceAccount.create` is false, then it should not be created, but it should still be associated with the same resources so that manually-created RBAC resources created later that reference it will function correctly. If `serviceAccount.create` is false and the name is not specified, then the default ServiceAccount is used.
 
 The following helper template should be used for the ServiceAccount.
 
@@ -61,3 +61,4 @@ Create the name of the service account to use
 {{- end -}}
 {{- end -}}
 ```
+

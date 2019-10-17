@@ -15,7 +15,7 @@ As we walk through the examples in this section, many of these concepts will bec
 
 For these exercises, we'll start with the `mychart/` chart we created at the beginning of this guide, and we'll add a new chart inside of it.
 
-```console
+```text
 $ cd mychart/charts
 $ helm create mysubchart
 Creating mysubchart
@@ -34,7 +34,7 @@ dessert: cake
 
 Next, we'll create a new ConfigMap template in `mychart/charts/mysubchart/templates/configmap.yaml`:
 
-```
+```text
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -45,7 +45,7 @@ data:
 
 Because every subchart is a _stand-alone chart_, we can test `mysubchart` on its own:
 
-```console
+```text
 $ helm install --dry-run --debug mychart/charts/mysubchart
 SERVER: "localhost:44134"
 CHART PATH: /Users/mattbutcher/Code/Go/src/k8s.io/helm/_scratch/mychart/charts/mysubchart
@@ -175,8 +175,7 @@ Globals are useful for passing information like this, though it does take some p
 
 ## Sharing Templates with Subcharts
 
-Parent charts and subcharts can share templates. Any defined block in any chart is
-available to other charts.
+Parent charts and subcharts can share templates. Any defined block in any chart is available to other charts.
 
 For example, we can define a simple template like this:
 
@@ -184,24 +183,19 @@ For example, we can define a simple template like this:
 {{- define "labels" }}from: mychart{{ end }}
 ```
 
-Recall how the labels on templates are _globally shared_. Thus, the `labels` chart
-can be included from any other chart.
+Recall how the labels on templates are _globally shared_. Thus, the `labels` chart can be included from any other chart.
 
-While chart developers have a choice between `include` and `template`, one advantage
-of using `include` is that `include` can dynamically reference templates:
+While chart developers have a choice between `include` and `template`, one advantage of using `include` is that `include` can dynamically reference templates:
 
 ```yaml
 {{ include $mytemplate }}
 ```
 
-The above will dereference `$mytemplate`. The `template` function, in contrast,
-will only accept a string literal.
+The above will dereference `$mytemplate`. The `template` function, in contrast, will only accept a string literal.
 
 ## Avoid Using Blocks
 
-The Go template language provides a `block` keyword that allows developers to provide
-a default implementation which is overridden later. In Helm charts, blocks are not
-the best tool for overriding because if multiple implementations of the same block
-are provided, the one selected is unpredictable.
+The Go template language provides a `block` keyword that allows developers to provide a default implementation which is overridden later. In Helm charts, blocks are not the best tool for overriding because if multiple implementations of the same block are provided, the one selected is unpredictable.
 
 The suggestion is to instead use `include`.
+

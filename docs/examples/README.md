@@ -1,7 +1,6 @@
 # Helm Examples
 
-This directory contains example charts to help you get started with
-chart development.
+This directory contains example charts to help you get started with chart development.
 
 ## Alpine
 
@@ -11,8 +10,7 @@ It simply deploys a single pod running Alpine Linux.
 
 ## Nginx
 
-The `nginx` chart shows how to compose several resources into one chart,
-and it illustrates more complex template usage.
+The `nginx` chart shows how to compose several resources into one chart, and it illustrates more complex template usage.
 
-It deploys a `Deployment` (which creates a `ReplicaSet`), a `ConfigMap`, and a `Service`. The replica set starts an nginx pod. The config
-map stores the files that the nginx server can serve.
+It deploys a `Deployment` \(which creates a `ReplicaSet`\), a `ConfigMap`, and a `Service`. The replica set starts an nginx pod. The config map stores the files that the nginx server can serve.
+

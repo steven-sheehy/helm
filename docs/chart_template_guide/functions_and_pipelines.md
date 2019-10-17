@@ -36,7 +36,7 @@ data:
   food: {{ .Values.favorite.food | quote }}
 ```
 
-In this example, instead of calling `quote ARGUMENT`, we inverted the order. We "sent" the argument to the function using a pipeline (`|`): `.Values.favorite.drink | quote`. Using pipelines, we can chain several functions together:
+In this example, instead of calling `quote ARGUMENT`, we inverted the order. We "sent" the argument to the function using a pipeline \(`|`\): `.Values.favorite.drink | quote`. Using pipelines, we can chain several functions together:
 
 ```yaml
 apiVersion: v1
@@ -67,7 +67,7 @@ data:
 
 Note that our original `pizza` has now been transformed to `"PIZZA"`.
 
-When pipelining arguments like this, the result of the first evaluation (`.Values.favorite.drink`) is sent as the _last argument to the function_. We can modify the drink example above to illustrate with a function that takes two arguments: `repeat COUNT STRING`:
+When pipelining arguments like this, the result of the first evaluation \(`.Values.favorite.drink`\) is sent as the _last argument to the function_. We can modify the drink example above to illustrate with a function that takes two arguments: `repeat COUNT STRING`:
 
 ```yaml
 apiVersion: v1
@@ -138,7 +138,7 @@ data:
   food: "PIZZA"
 ```
 
-In an actual chart, all static default values should live in the values.yaml, and should not be repeated using the `default` command (otherwise they would be redundant). However, the `default` command is perfect for computed values, which can not be declared inside values.yaml. For example:
+In an actual chart, all static default values should live in the values.yaml, and should not be repeated using the `default` command \(otherwise they would be redundant\). However, the `default` command is perfect for computed values, which can not be declared inside values.yaml. For example:
 
 ```yaml
 drink: {{ .Values.favorite.drink | default (printf "%s-tea" (include "fullname" .)) }}
@@ -166,3 +166,4 @@ Operators are implemented as functions that return a boolean value. To use `eq`,
 ```
 
 Now we can turn from functions and pipelines to flow control with conditions, loops, and scope modifiers.
+

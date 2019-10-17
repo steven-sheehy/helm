@@ -1,6 +1,6 @@
 # Named Templates
 
-It is time to move beyond one template, and begin to create others. In this section, we will see how to define _named templates_ in one file, and then use them elsewhere. A _named template_ (sometimes called a _partial_ or a _subtemplate_) is simply a template defined inside of a file, and given a name. We'll see two ways to create them, and a few different ways to use them.
+It is time to move beyond one template, and begin to create others. In this section, we will see how to define _named templates_ in one file, and then use them elsewhere. A _named template_ \(sometimes called a _partial_ or a _subtemplate_\) is simply a template defined inside of a file, and given a name. We'll see two ways to create them, and a few different ways to use them.
 
 In the "Flow Control" section we introduced three actions for declaring and managing templates: `define`, `template`, and `block`. In this section, we'll cover those three actions, and also introduce a special-purpose `include` function that works similarly to the `template` action.
 
@@ -14,9 +14,9 @@ So far, we've used one file, and that one file has contained a single template. 
 
 Before we get to the nuts-and-bolts of writing those templates, there is file naming convention that deserves mention:
 
-- Most files in `templates/` are treated as if they contain Kubernetes manifests
-- The `NOTES.txt` is one exception
-- But files whose name begins with an underscore (`_`) are assumed to _not_ have a manifest inside. These files are not rendered to Kubernetes object definitions, but are available everywhere within other chart templates for use.
+* Most files in `templates/` are treated as if they contain Kubernetes manifests
+* The `NOTES.txt` is one exception
+* But files whose name begins with an underscore \(`_`\) are assumed to _not_ have a manifest inside. These files are not rendered to Kubernetes object definitions, but are available everywhere within other chart templates for use.
 
 These files are used to store partials and helpers. In fact, when we first created `mychart`, we saw a file called `_helpers.tpl`. That file is the default location for template partials.
 
@@ -88,7 +88,7 @@ Conventionally, Helm charts put these templates inside of a partials file, usual
 {{- end }}
 ```
 
-By convention, `define` functions should have a simple documentation block (`{{/* ... */}}`) describing what they do.
+By convention, `define` functions should have a simple documentation block \(`{{/* ... */}}`\) describing what they do.
 
 Even though this definition is in `_helpers.tpl`, it can still be accessed in `configmap.yaml`:
 
@@ -137,9 +137,9 @@ metadata:
     version:
 ```
 
-What happened to the name and version? They weren't in the scope for our defined template. When a named template (created with `define`) is rendered, it will receive the scope passed in by the `template` call. In our example, we included the template like this:
+What happened to the name and version? They weren't in the scope for our defined template. When a named template \(created with `define`\) is rendered, it will receive the scope passed in by the `template` call. In our example, we included the template like this:
 
-```gotpl
+```text
 {{- template "mychart.labels" }}
 ```
 
@@ -262,3 +262,4 @@ data:
 > It is considered preferable to use `include` over `template` in Helm templates simply so that the output formatting can be handled better for YAML documents.
 
 Sometimes we want to import content, but not as templates. That is, we want to import files verbatim. We can achieve this by accessing files through the `.Files` object described in the next section.
+

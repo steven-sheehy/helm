@@ -1,70 +1,70 @@
-## helm upgrade
+# helm upgrade
 
 upgrade a release
 
-### Synopsis
-
+## Synopsis
 
 This command upgrades a release to a specified version of a chart and/or updates chart values.
 
 Required arguments are release and chart. The chart argument can be one of:
- - a chart reference('stable/mariadb'); use '--version' and '--devel' flags for versions other than latest,
- - a path to a chart directory,
- - a packaged chart,
- - a fully qualified URL.
+
+* a chart reference\('stable/mariadb'\); use '--version' and '--devel' flags for versions other than latest,
+* a path to a chart directory,
+* a packaged chart,
+* a fully qualified URL.
 
 To customize the chart values, use any of
- - '--values'/'-f' to pass in a yaml file holding settings,
- - '--set' to provide one or more key=val pairs directly,
- - '--set-string' to provide key=val forcing val to be stored as a string,
- - '--set-file' to provide key=path to read a single large value from a file at path.
 
-To edit or append to the existing customized values, add the
- '--reuse-values' flag, otherwise any existing customized values are ignored.
+* '--values'/'-f' to pass in a yaml file holding settings,
+* '--set' to provide one or more key=val pairs directly,
+* '--set-string' to provide key=val forcing val to be stored as a string,
+* '--set-file' to provide key=path to read a single large value from a file at path.
 
-If no chart value arguments are provided on the command line, any existing customized values are carried
-forward. If you want to revert to just the values provided in the chart, use the '--reset-values' flag.
+To edit or append to the existing customized values, add the '--reuse-values' flag, otherwise any existing customized values are ignored.
 
-You can specify any of the chart value flags multiple times. The priority will be given to the last
-(right-most) value specified. For example, if both myvalues.yaml and override.yaml contained a key
-called 'Test', the value set in override.yaml would take precedence:
+If no chart value arguments are provided on the command line, any existing customized values are carried forward. If you want to revert to just the values provided in the chart, use the '--reset-values' flag.
 
-	$ helm upgrade -f myvalues.yaml -f override.yaml redis ./redis
+You can specify any of the chart value flags multiple times. The priority will be given to the last \(right-most\) value specified. For example, if both myvalues.yaml and override.yaml contained a key called 'Test', the value set in override.yaml would take precedence:
 
-Note that the key name provided to the '--set', '--set-string' and '--set-file' flags can reference
-structure elements. Examples:
-  - mybool=TRUE
-  - livenessProbe.timeoutSeconds=10
-  - metrics.annotations[0]=hey,metrics.annotations[1]=ho
+```text
+$ helm upgrade -f myvalues.yaml -f override.yaml redis ./redis
+```
+
+Note that the key name provided to the '--set', '--set-string' and '--set-file' flags can reference structure elements. Examples:
+
+* mybool=TRUE
+* livenessProbe.timeoutSeconds=10
+* metrics.annotations\[0\]=hey,metrics.annotations\[1\]=ho
 
 which sets the top level key mybool to true, the nested timeoutSeconds to 10, and two array values, respectively.
 
-Note that the value side of the key=val provided to '--set' and '--set-string' flags will pass through
-shell evaluation followed by yaml type parsing to produce the final value. This may alter inputs with
-special characters in unexpected ways, for example
+Note that the value side of the key=val provided to '--set' and '--set-string' flags will pass through shell evaluation followed by yaml type parsing to produce the final value. This may alter inputs with special characters in unexpected ways, for example
 
-	$ helm upgrade --set pwd=3jk$o2,z=f\30.e redis ./redis
+```text
+$ helm upgrade --set pwd=3jk$o2,z=f\30.e redis ./redis
+```
 
-results in "pwd: 3jk" and "z: f30.e". Use single quotes to avoid shell evaluation and argument delimiters,
-and use backslash to escape yaml special characters:
+results in "pwd: 3jk" and "z: f30.e". Use single quotes to avoid shell evaluation and argument delimiters, and use backslash to escape yaml special characters:
 
-	$ helm upgrade --set pwd='3jk$o2z=f\\30.e' redis ./redis
+```text
+$ helm upgrade --set pwd='3jk$o2z=f\\30.e' redis ./redis
+```
 
-which results in the expected "pwd: 3jk$o2z=f\30.e". If a single quote occurs in your value then follow
-your shell convention for escaping it; for example in bash:
+which results in the expected "pwd: 3jk$o2z=f\30.e". If a single quote occurs in your value then follow your shell convention for escaping it; for example in bash:
 
-	$ helm upgrade --set pwd='3jk$o2z=f\\30with'\''quote'
+```text
+$ helm upgrade --set pwd='3jk$o2z=f\\30with'\''quote'
+```
 
 which results in "pwd: 3jk$o2z=f\30with'quote".
 
-
-```
+```text
 helm upgrade [RELEASE] [CHART] [flags]
 ```
 
-### Options
+## Options
 
-```
+```text
       --atomic                   if set, upgrade process rolls back changes made in case of failed upgrade, also sets --wait flag
       --ca-file string           verify certificates of HTTPS-enabled servers using this CA bundle
       --cert-file string         identify HTTPS client using this SSL certificate file
@@ -102,9 +102,9 @@ helm upgrade [RELEASE] [CHART] [flags]
       --wait                     if set, will wait until all Pods, PVCs, Services, and minimum number of Pods of a Deployment are in a ready state before marking the release as successful. It will wait for as long as --timeout
 ```
 
-### Options inherited from parent commands
+## Options inherited from parent commands
 
-```
+```text
       --debug                           enable verbose output
       --home string                     location of your Helm config. Overrides $HELM_HOME (default "~/.helm")
       --host string                     address of Tiller. Overrides $HELM_HOST
@@ -114,8 +114,9 @@ helm upgrade [RELEASE] [CHART] [flags]
       --tiller-namespace string         namespace of Tiller (default "kube-system")
 ```
 
-### SEE ALSO
+## SEE ALSO
 
-* [helm](helm.md)	 - The Helm package manager for Kubernetes.
+* [helm](helm.md)     - The Helm package manager for Kubernetes.
 
-###### Auto generated by spf13/cobra on 5-Feb-2019
+### Auto generated by spf13/cobra on 5-Feb-2019
+
